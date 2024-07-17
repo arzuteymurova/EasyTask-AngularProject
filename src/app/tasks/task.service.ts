@@ -1,0 +1,31 @@
+import { Injectable } from '@angular/core';
+import { DUMMY_TASKS } from '../dummy-tasks';
+import { NewTaskData } from './task/task.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TaskService {
+
+  constructor() { }
+
+  private tasks = DUMMY_TASKS;
+
+  getUserTasks(userId: string) {
+    return this.tasks.filter((task) => task.userId === userId);
+  }
+
+  addTask(task: NewTaskData, userId: string) {
+    this.tasks.unshift({
+      id: new Date().getTime().toString(),
+      userId: userId,
+      title: task.title,
+      summary: task.summary,
+      dueDate: task.dueDate
+    });
+  }
+
+  removeTask(id: string) {
+    this.tasks = this.tasks.filter((task) => task.id !== id);
+  }
+}
